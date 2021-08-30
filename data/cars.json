@@ -1,0 +1,17 @@
+[
+  {
+    "id": "C-1",
+    "content": "Tesla Model S is obtainable",
+    "dateOfReceiving": "The car receiving date"
+  },
+  {
+    "id": "C-2",
+    "content": "Mustang is obtainable",
+    "dateOfReceiving": "The car receiving date"
+  },
+  {
+    "id": "C-3",
+    "content": "Aladdin's carpet is obtainable",
+    "dateOfReceiving": "The car receiving date"
+  }
+]

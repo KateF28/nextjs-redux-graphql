@@ -1,0 +1,17 @@
+[
+    {
+        "id": "N-1",
+        "content": "Article 1 content",
+        "dateOfReceiving": "The article receiving date"
+    },
+    {
+        "id": "N-2",
+        "content": "Article 2 content",
+        "dateOfReceiving": "The article receiving date"
+    },
+    {
+        "id": "N-3",
+        "content": "Article 3 content",
+        "dateOfReceiving": "The article receiving date"
+    }
+]

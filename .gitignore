@@ -32,3 +32,8 @@ yarn-error.log*
 
 # vercel
 .vercel
+
+# IDE specific
+.vscode
+.idea
+*.iml

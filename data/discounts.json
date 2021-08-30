@@ -1,0 +1,17 @@
+[
+  {
+    "id": "D-1",
+    "content": "Discount 1 name",
+    "dateOfReceiving": "The discount receiving date"
+  },
+  {
+    "id": "D-2",
+    "content": "Discount 2 namet",
+    "dateOfReceiving": "The discount receiving date"
+  },
+  {
+    "id": "D-3",
+    "content": "Discount 3 name",
+    "dateOfReceiving": "The discount receiving date"
+  }
+]
