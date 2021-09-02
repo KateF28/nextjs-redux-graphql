@@ -1,23 +1,36 @@
-import {getNews, getDiscounts, getCars} from "../helpers/updateDashboard"
+// Actions
+import {userActions} from "../bus/user/actions"
+// Other
+import {getNews, getDiscounts, getCars} from "../helpers/getDashboard"
 import {updateUsers} from "../helpers/updateUsers"
+import {initialDispatcher} from "../init/initialDispatcher"
+import {initializeStore} from "../init/store"
+// Styles
 import styles from "../styles/dashboard.module.css"
+import {useDispatch} from "react-redux";
 
 export const getServerSideProps = async (context) => {
+    const store = await initialDispatcher(context, initializeStore())
+    const counts = await updateUsers(context, store)
+    store.dispatch(userActions.setVisitCounts(counts))
+
     const news = await getNews()
-    const counts = await updateUsers(context)
     let discounts = []
     let cars = []
-
     if (counts > 2) {
         discounts = await getDiscounts()
     }
     if (counts > 4) {
         cars = await getCars()
     }
-    return {props: {news, discounts, cars}}
+
+    const initialReduxState = store.getState()
+    return {props: {news, discounts, cars, initialReduxState}}
 }
 
-const Dashboard = ({news, discounts, cars}) => {
+const Dashboard = (props) => {
+    const {news, discounts, cars} = props
+
     const discountsJSX = discounts.length > 0 && (
         <>
             <h2 className={styles.title}>Discounts</h2>

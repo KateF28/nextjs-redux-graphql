@@ -1,13 +1,16 @@
+// Core
 import nookies from "nookies"
+// Helpers
 import {updateUser} from "./updateUser"
 import {addUser} from "./addUser"
 
-export const updateUsers = async (context) => {
+export const updateUsers = async (context, store) => {
     const cookies = nookies.get(context)
+    const initialStore = store.getState()
+    const {user: {userId}} = initialStore
     if (!cookies.userId) {
-        const userId = Date.now()
         await addUser(userId)
-        nookies.set(context, 'userId', userId.toString())
+        nookies.set(context, 'userId', userId)
         // nookies.set(context, 'userId', userId.toString(), {
             // maxAge: 30 * 24 * 60 * 60,
             // path: '/',
@@ -26,7 +29,7 @@ export const updateUsers = async (context) => {
             // maxAge: 30 * 24 * 60 * 60,
             // path: '/',
         // })
-        await updateUser(cookies.userId, newVisitCounts)
-        return visitCounts
+        await updateUser(userId, newVisitCounts)
+        return newVisitCounts
     }
 }
