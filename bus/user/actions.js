@@ -13,10 +13,16 @@ export const userActions = {
       payload: visitCounts,
     }
   },
-  setUserType: (userType) => {
+  setUserType: (visitCounts) => {
     return {
       type: types.SET_TYPE,
-      payload: userType,
+      payload: visitCounts,
+    }
+  },
+  setTemporaryType: (type) => {
+    return {
+      type: types.SET_TEMPORARY_TYPE,
+      payload: type,
     }
   },
 }

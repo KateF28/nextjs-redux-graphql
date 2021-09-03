@@ -1,7 +1,7 @@
 // Core
 import {useDispatch} from "react-redux"
 // Components
-import {Message} from "../components/Message"
+import {User} from "../components/User"
 import {Navbar} from "../shared/Navbar"
 // Actions
 import {userActions} from "../bus/user/actions"
@@ -20,7 +20,7 @@ export const getServerSideProps = async (context) => {
     return {props: {initialReduxState}}
 }
 
-const Home = ({initialReduxState}) => {
+const UserPage = ({initialReduxState}) => {
     const initialVisits = initialReduxState.user.visitCounts
     const dispatch = useDispatch()
     dispatch(userActions.setVisitCounts(initialVisits))
@@ -29,9 +29,9 @@ const Home = ({initialReduxState}) => {
     return (
         <>
             <Navbar/>
-            <Message/>
+            <User/>
         </>
     )
 }
 
-export default Home
+export default UserPage

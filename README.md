@@ -10,10 +10,3 @@ yarn dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-## Accessible pages:
-```bash
-"/"
-"/dashboard"
-"/user"
-```
