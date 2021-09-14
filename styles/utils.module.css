@@ -5,3 +5,7 @@
 .subpart {
     margin-bottom: 30px;
 }
+
+.dblock {
+    display: block;
+}

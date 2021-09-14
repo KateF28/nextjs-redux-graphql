@@ -16,7 +16,7 @@ export const User = () => {
         <>
             <p>User type: {userType}</p>
             <p>Visits: {visitCounts}</p>
-            <button type="button" onClick={setTemporaryHigherStatus}>Set temporary higher status</button>
+            {userType !== USER_TYPES.family && <button type="button" onClick={setTemporaryHigherStatus}>Set temporary higher status</button>}
         </>
     )
 }

@@ -1,82 +1,60 @@
+// Core
+import Link from "next/link"
 // Actions
 import {userActions} from "../bus/user/actions"
+import {newsActions} from "../bus/news/actions"
+import {carsActions} from "../bus/cars/actions"
+import {discountsActions} from "../bus/discounts/actions"
 // Components
 import {Navbar} from "../shared/Navbar"
+import {NewsLinks} from "../components/NewsLinks"
+import {DiscountsLinks} from "../components/DiscountsLinks"
+import {CarsLinks} from "../components/CarsLinks"
 // Other
-import {getNews, getDiscounts, getCars} from "../helpers/getDashboard"
+import {getNews, getDiscounts, getCars} from "../helpers/getData"
 import {updateUsers} from "../helpers/updateUsers"
 import {initialDispatcher} from "../init/initialDispatcher"
 import {initializeStore} from "../init/store"
 import {FAMILY_VISITS_COUNT, FRIEND_VISITS_COUNT} from "../init/constants"
 // Styles
-import styles from "../styles/dashboard.module.css"
+import styles from "../styles/utils.module.css"
+import {useDispatch} from "react-redux";
 
 export const getServerSideProps = async (context) => {
     const store = await initialDispatcher(context, initializeStore())
     const counts = await updateUsers(context, store)
     store.dispatch(userActions.setVisitCounts(counts))
     store.dispatch(userActions.setUserType(counts))
-
     const news = await getNews()
-    let discounts = []
-    let cars = []
-    if (counts >= FRIEND_VISITS_COUNT) {
-        discounts = await getDiscounts()
-    }
-    if (counts >= FAMILY_VISITS_COUNT) {
-        cars = await getCars()
-    }
+    store.dispatch(newsActions.updateNews(news))
+    let discounts = await getDiscounts()
+    store.dispatch(discountsActions.updateDiscounts(discounts))
+    let cars = await getCars()
+    store.dispatch(carsActions.updateCars(cars))
 
-    return {props: {news, discounts, cars}}
+    const initialReduxState = store.getState()
+    return {props: {initialReduxState}}
 }
 
-const Dashboard = (props) => {
-    const {news, discounts, cars} = props
-
-    const discountsJSX = discounts.length > 0 && (
-        <>
-            <h2 className={styles.title}>Discounts</h2>
-            {discounts.map((el, idx) => {
-                    return (
-                        <div className={styles.subpart} key={`${idx}-discount`}>
-                            <h3>{el.content}</h3>
-                            <p>{el.dateOfReceiving}</p>
-                        </div>
-                    )
-                }
-            )}
-        </>
-    )
-
-    const carsJSX = cars.length > 0 && (
-        <>
-            <h2 className={styles.title}>Cars</h2>
-            {cars.map((el, idx) => {
-                    return (
-                        <div className={styles.subpart} key={`${idx}-car`}>
-                            <h3>{el.content}</h3>
-                            <p>{el.dateOfReceiving}</p>
-                        </div>
-                    )
-                }
-            )}
-        </>
-    )
+const Dashboard = ({initialReduxState}) => {
+    const {news, discounts, cars, user} = initialReduxState
+    const dispatch = useDispatch()
+    dispatch(newsActions.updateNews(news.news))
+    dispatch(discountsActions.updateDiscounts(discounts.discounts))
+    dispatch(carsActions.updateCars(cars.cars))
+    const initialVisits = user.visitCounts
+    dispatch(userActions.setVisitCounts(initialVisits))
+    dispatch(userActions.setUserType(initialVisits))
 
     return (<>
-            <Navbar />
-            <h2 className={styles.title}>News</h2>
-            {news.map((el, idx) => {
-                    return (
-                        <div className={styles.subpart} key={`${idx}-article`}>
-                            <h3>{el.content}</h3>
-                            <p>{el.dateOfReceiving}</p>
-                        </div>
-                    )
-                }
-            )}
-            {discountsJSX}
-            {carsJSX}
+            <Navbar/>
+            <h1 className={styles.title}>Links to all application pages:</h1>
+            <NewsLinks />
+            <DiscountsLinks />
+            <CarsLinks />
+            <Link href="/"><a className={styles.dblock}>Home page</a></Link>
+            <Link href="/dashboard"><a className={styles.dblock}>Dashboard page</a></Link>
+            <Link href="/user"><a className={styles.dblock}>User page</a></Link>
         </>
     )
 }
